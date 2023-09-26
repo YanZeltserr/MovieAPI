@@ -1,6 +1,21 @@
 const express = require('express')
 const app = express()
 const port = 3004
+const { Pool } = require('pg');
+
+require('dotenv').config();
+
+const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_DATABASE } = process.env;
+
+
+const pool = new Pool({
+  user: DB_USER,
+  password: DB_PASSWORD,
+  host: DB_HOST,
+  port: DB_PORT,
+  database: DB_DATABASE
+  });
+
 
 app.get('/', (req, res) => {
     res.send('Hello World!!')
@@ -53,13 +68,3 @@ app.put('/updateMovie/:id', (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
-
-const { Pool } = require('pg');
-
-const pool = new Pool({
-    user: 'postgres',
-    host: 'movies-rds-new-cluster-instance-1.c8bveno3arbg.eu-central-1.rds.amazonaws.com',
-    database: 'postgres',
-    password: 'GiniAdmin',
-    port: 5432
-  });
